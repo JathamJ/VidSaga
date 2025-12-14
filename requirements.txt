@@ -1,5 +1,6 @@
 langchain
 langgraph
 langchain-openai
+langchain-qwen3
 pydantic
 python-dotenv
