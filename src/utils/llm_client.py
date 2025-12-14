@@ -13,7 +13,7 @@ class LLMManager:
     
     @staticmethod
     @lru_cache(maxsize=1)
-    def get_openai_client(temperature: float = 1.2) -> ChatOpenAI:
+    def get_openai_client(temperature: float = 1.0) -> ChatOpenAI:
         """
         获取 OpenAI Chat 客户端单例 (带缓存)
         
@@ -35,9 +35,10 @@ class LLMManager:
             model=model_name,
             temperature=temperature,
             api_key=api_key,
-            base_url=base_url
+            base_url=base_url,
+            max_tokens=40960
         )
 
 # 便捷访问函数
-def get_llm(model: str = "gpt-3.5-turbo", temperature: float = 0.7) -> ChatOpenAI:
-    return LLMManager.get_openai_client(model, temperature)
+def get_llm(temperature: float = 1.0) -> ChatOpenAI:
+    return LLMManager.get_openai_client(temperature)
