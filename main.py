@@ -46,7 +46,18 @@ def main():
     if file_path.exists():
         with open(db_file, "rb") as f:
             drama = pickle.load(f)
-            print(drama.roles)
+
+        # 备份旧状态
+        backup_file = PROJECT_ROOT / "runtime" / f"{title}_backup.pkl"
+        with open(backup_file, 'wb') as f:
+            pickle.dump(drama, f)
+
+        # 继续调试操作
+        print(drama.roles)
+
+        # 记录状态
+        with open(db_file, 'wb') as f:
+            pickle.dump(drama, f)
     else:
         drama_dto = DramaDto(title, desc, style, language, aspect_ratio, scene_time_limit)
         drama = Drama(drama_dto)
