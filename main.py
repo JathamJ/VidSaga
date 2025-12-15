@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from src.agents.drama import Drama
+from src.dto.drama_dto import DramaDto
 import sys
 
 # Load environment variables
@@ -37,7 +38,8 @@ def main():
     if not aspect_ratio:
         aspect_ratio = "9:16"
 
-    drama = Drama(title, desc, style, language, aspect_ratio, scene_time_limit)
+    drama_dto = DramaDto(title, desc, style, language, aspect_ratio, scene_time_limit)
+    drama = Drama(drama_dto)
     
     roles_result = drama.generate_roles()
     print(roles_result.content)

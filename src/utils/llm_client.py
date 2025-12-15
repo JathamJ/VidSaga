@@ -18,7 +18,6 @@ class LLMManager:
         获取 OpenAI Chat 客户端单例 (带缓存)
         
         Args:
-            model_name: 模型名称，默认为 "gpt-3.5-turbo"
             temperature: 温度参数，控制生成随机性
             
         Returns:
