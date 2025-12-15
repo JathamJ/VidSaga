@@ -1,8 +1,11 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 from src.agents.drama import Drama
 from src.dto.drama_dto import DramaDto
 import sys
+import pickle
+from src.constants.path import PROJECT_ROOT
 
 # Load environment variables
 load_dotenv()
@@ -38,11 +41,19 @@ def main():
     if not aspect_ratio:
         aspect_ratio = "9:16"
 
-    drama_dto = DramaDto(title, desc, style, language, aspect_ratio, scene_time_limit)
-    drama = Drama(drama_dto)
+    db_file = PROJECT_ROOT / "runtime" / f"{title}.pkl"
+    file_path = Path(db_file)
+    if file_path.exists():
+        with open(db_file, "rb") as f:
+            drama = pickle.load(f)
+            print(drama.roles)
+    else:
+        drama_dto = DramaDto(title, desc, style, language, aspect_ratio, scene_time_limit)
+        drama = Drama(drama_dto)
+        drama.generate_roles()
+        with open(db_file, 'wb') as f:
+            pickle.dump(drama, f)
     
-    roles_result = drama.generate_roles()
-    print(roles_result.content)
     
 if __name__ == "__main__":
     main()

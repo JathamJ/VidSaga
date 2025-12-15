@@ -12,6 +12,7 @@ class Drama:
 
     def __init__(self, drama_dto: DramaDto):
         self.drama_dto = drama_dto
+        self.roles = {} # 初始化角色字典
 
     def generate_roles(self) -> Dict[str, Role]:
         chain = generate_role_chain()
@@ -34,7 +35,9 @@ class Drama:
 
     def add_role(self, name: str, desc: str):
         role = Role(name, desc, "", "")
-        return role.generate(role, self)
+        role.generate(self.drama_dto)
+        self.roles[role.name] = role
+        return role
 
 
 
