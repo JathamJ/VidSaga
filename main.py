@@ -13,19 +13,13 @@ load_dotenv()
 def main():
     print("Initializing VidSaga AI Short Video Generator...")
     
-    title = input("请输入名称: ")
-    if not title:
-        title = os.getenv("TEMP_TITLE")
-        if not title:
-            sys.exit("未输入名称")
+    title = os.getenv("STORY_TITLE")
+    desc = os.getenv("STORY_DESC")
 
-    desc = input("请输入描述: (包括：剧情梗概、场景描述，结局等)")
-    if not desc:
-        desc = os.getenv("TEMP_DESC")
-        if not desc:
-            sys.exit("未输入描述")
+    if not title or not desc:
+        sys.exit("Please input title and desc!")
 
-    style = input("请输入画面整体风格: ")
+    style = os.getenv("STORY_STYLE")
     if not style:
         style = "写实"
 
@@ -54,16 +48,10 @@ def main():
             pickle.dump(drama, f)
 
         # 继续调试操作
-        drama.add_role("西门庆", "")
-
-        for k, role in drama.roles.items():
-            print(k, role)
         
-        
-
         # 记录状态
-        # with open(db_file, 'wb') as f:
-        #     pickle.dump(drama, f)
+        with open(db_file, 'wb') as f:
+            pickle.dump(drama, f)
     else:
         drama_dto = DramaDto(title, desc, style, language, aspect_ratio, scene_time_limit)
         drama = Drama(drama_dto)

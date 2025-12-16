@@ -3,6 +3,8 @@ from src.utils.llm_client import get_llm
 from src.dto.drama_dto import DramaDto
 from src.chains.role import generate_simple_role_chain
 import json
+from src.utils.resolution import get_aspect_ratio_resolution
+from src.prompts.role import get_role_model_image_prompt_template
 
 # 角色
 class Role:
@@ -33,8 +35,23 @@ class Role:
         })
 
         roles_json = roles_result.content
-
-        print(roles_json)
         role = json.loads(roles_json)
-        self = Role(**role)
+        self.name = role['name']
+        self.desc = role['desc']
+        self.voice_prompt = role['voice_prompt']
+        self.appearance_prompt = role['appearance_prompt']
         return
+
+    def get_appearance_img_prompt(self, drama_dto: DramaDto) -> str:
+        """根据风格和宽高比获取角色的外观提示词。"""
+
+        image_size = get_aspect_ratio_resolution(drama_dto.aspect_ratio)
+
+        prompt = get_role_model_image_prompt_template().format(
+            style=drama_dto.style,
+            aspect_ratio=drama_dto.aspect_ratio,
+            role_name=self.name,
+            appearance_prompt=self.appearance_prompt,
+            image_size=image_size,
+        )
+        return prompt

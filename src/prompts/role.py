@@ -34,3 +34,15 @@ def get_simple_role_prompt_template() -> ChatPromptTemplate:
         ("system", "请直接输出json字符串，不要包含任何其他文本。"),
     ])
     return prompt
+
+def get_role_model_image_prompt_template() -> ChatPromptTemplate:
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "你是一个建模图像塑造大师，你会根据角色描述，生成角色的形象图片。"),
+        ("system", "纯白色背景、无阴影、全身站立，正面。"),
+        ("user", "角色名：{role_name}"),
+        ("user", "外貌描述：{appearance_prompt}"),
+        ("system", "风格：{style}"),
+        ("system", "图片比例：{aspect_ratio}"),
+        ("system", "图片像素：{image_size}"),
+    ])
+    return prompt

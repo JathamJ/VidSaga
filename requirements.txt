@@ -4,3 +4,4 @@ langchain-openai
 langchain-qwen3
 pydantic
 python-dotenv
+dashscope
