@@ -1,6 +1,8 @@
 from src.constants.role import ROLE_JSON
 from src.utils.llm_client import get_llm
 from src.dto.drama_dto import DramaDto
+from src.chains.role import generate_simple_role_chain
+import json
 
 # 角色
 class Role:
@@ -15,15 +17,24 @@ class Role:
         self.voice_prompt = voice_prompt
         self.appearance_prompt = appearance_prompt
 
+    def __str__(self):
+        return f"姓名：{self.name}，介绍：{self.desc}，音色提示词：{self.voice_prompt}，外观提示词：{self.appearance_prompt}"
+
     def generate(self, drama_dto: DramaDto):
-        prompt = f"你是一个AI编剧-提示词工程师，请根据剧情标题：{drama_dto.title}，剧情描述：{drama_dto.desc}，画面风格：{drama_dto.style}，语言：{drama_dto.language}，画面比例：{drama_dto.aspect_ratio}，生成角色: 姓名：{self.name}，介绍：{self.desc}。请以以下json结构返回：{ROLE_JSON}，请直接输出json，不要包含任何其他文本。"
+        chain = generate_simple_role_chain()
+        roles_result = chain.invoke({
+            "title": drama_dto.title,
+            "desc": drama_dto.desc,
+            "style": drama_dto.style,
+            "language": drama_dto.language,
+            "aspect_ratio": drama_dto.aspect_ratio,
+            "role_name": self.name,
+            "role_desc": self.desc,
+        })
 
-        roles_result = get_llm().invoke(prompt)
         roles_json = roles_result.content
-        role = json.loads(roles_json)
 
-        self.name = role.name
-        self.desc = role.desc
-        self.voice_prompt = role.voice_prompt
-        self.appearance_prompt = role.appearance_prompt
+        print(roles_json)
+        role = json.loads(roles_json)
+        self = Role(**role)
         return

@@ -24,9 +24,6 @@ class Drama:
             "aspect_ratio": self.drama_dto.aspect_ratio
         })
         roles_json = roles_result.content
-
-        print(roles_json)
-
         role_arr = json.loads(roles_json)
 
         for role in role_arr:
