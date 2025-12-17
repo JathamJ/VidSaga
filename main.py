@@ -41,6 +41,7 @@ def main():
         drama: Drama
         with open(db_file, "rb") as f:
             drama = pickle.load(f)
+        drama.drama_dto.desc = desc
 
         # 备份旧状态
         backup_file = PROJECT_ROOT / "runtime" / f"{title}_backup.pkl"
@@ -48,6 +49,7 @@ def main():
             pickle.dump(drama, f)
 
         # 继续调试操作
+        drama.generate_first_scene()
         
         # 记录状态
         with open(db_file, 'wb') as f:

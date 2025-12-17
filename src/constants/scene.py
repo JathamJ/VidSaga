@@ -1,0 +1,1 @@
+SCENE_TREE_JSON = '{"name": "场景名称","time": "场景时间","location": "场景地点","events": "场景事件描述", "roles": ["场景中出现的角色名"],"results": "场景结果","next_select": ["主角的选择或与他人对话，对话请用“”包裹，无需序号"]}'
