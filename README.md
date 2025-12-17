@@ -9,6 +9,11 @@ A video interactive game （powered by qwen）
 Mobile phone scanning：
 <img src="https://qn.gzquan.cn/exported_qrcode_image_600.png" alt="二维码" width="200" />
 
+#### Others
+* backfend：[github.com/JathamJ/video_game_api](https://github.com/JathamJ/video_game_api)
+* frontend：[github.com/JathamJ/video_interactive_game](https://github.com/JathamJ/video_interactive_game)
+
+
 ## Feature
 - [ ] Role generation
 - [ ] Story generation
